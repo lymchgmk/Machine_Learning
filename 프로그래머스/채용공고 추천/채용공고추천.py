@@ -5,18 +5,20 @@ from sklearn.model_selection import train_test_split
 import csv
 
 
-with open('./data/test_job.csv') as job_tags_csv:
-    reader = csv.reader(job_tags_csv, delimiter=',')
-    print(next(reader))
-    print(reader)
-    # for row in reader:
-    #     print(row)
-        
-        
-train, test = train_test_split(reader, test_size=0.2)
-print(train)
+def get_compiled_model():
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(10, activation='relu'),
+        tf.keras.layers.Dense(1)
+    ])
+    
+    model.compile(
+        optimizer='adam',
+        loss=tf.keras.losses.BinaryCrossentropy,
+        metrics=['accuracy']
+    )
+    
+    return model
 
 
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Dense()
-])
+model = get_compiled_model()
+model.fit(train_dataset, epochs=100)
